@@ -54,7 +54,7 @@ int main(){
             }
             
             inSampleJail = inSampleJail|checkStopButton(&doorOpen, &doorOpenTime, btnArray);
-            moving = !inSampleJail;
+            moving = moving&!inSampleJail;
             
             setIndicators(prevFloor, doorOpen, btnArray);
         } while (inSampleJail);
@@ -62,7 +62,7 @@ int main(){
         //Direction and stop
         {
             int newDirection = findDirection(prevFloor, btnArray, direction, lastFloorDir, moving);
-            if (currentFloor != -1){
+            if (currentFloor != -1 || !moving){
                 elevio_motorDirection(newDirection);
             }
             if (newDirection == DIRN_STOP){ //No calls or call on current floor
@@ -71,6 +71,7 @@ int main(){
                     if (anyCallOnFloor(currentFloor, btnArray)){
                         doorOpen = true;
                         doorOpenTime = time(NULL);
+                        elevio_motorDirection(DIRN_STOP);
                     }
                 }
             } else {

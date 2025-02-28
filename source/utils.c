@@ -6,9 +6,9 @@ MotorDirection findDirection(int prevFloor, int btnArray[N_FLOORS][N_BUTTONS], M
     int floor = elevio_floorSensor();
     //Search forwards
     for (int f = prevFloor; 0 <= f && f < N_FLOORS; f += direction){
-        printf("Search floors 1 - %i %i %i\n", f, prevFloor, direction);
+        // printf("Search floors 1 - %i %i %i\n", f, prevFloor, direction);
         if (btnArray[f][BUTTON_CAB] || btnArray[f][direction == DIRN_UP ? BUTTON_HALL_UP : BUTTON_HALL_DOWN]){
-            printf("Found floor 1 - %i %i\n", f, prevFloor);
+            // printf("Found floor 1 - %i %i\n", f, prevFloor);
             if (!moving && floor == -1 && f == prevFloor){ //Thou hath stopped between floors
                 return lastFloorDir;
             }
@@ -18,23 +18,23 @@ MotorDirection findDirection(int prevFloor, int btnArray[N_FLOORS][N_BUTTONS], M
     }
     //Search backwards
     for (int f = (direction == 1 ? N_FLOORS-1 : 0); 0 <= f && f < N_FLOORS; f -= direction){
-        printf("Search floors 2 - %i %i\n", f, prevFloor);
+        // printf("Search floors 2 - %i %i\n", f, prevFloor);
         if (btnArray[f][BUTTON_CAB] || btnArray[f][direction == DIRN_UP ? BUTTON_HALL_DOWN : BUTTON_HALL_UP]){
-            printf("Found floor 2 - %i %i\n", f, prevFloor);
+            // printf("Found floor 2 - %i %i\n", f, prevFloor);
             if (!moving && floor == -1 && f == prevFloor){ //Thou hath stopped between floors
-                printf("Stopped between floors 2. %i %i\n", f, prevFloor);
+                // printf("Stopped between floors 2. %i %i\n", f, prevFloor);
                 return lastFloorDir;
             } else if (f != prevFloor){ //If matched on current floor, check next loop to 
                 return f > prevFloor ? DIRN_UP : DIRN_DOWN;
             }
         }
     }
-    printf("Search behind\n");
+    // printf("Search behind\n");
     //Search behind (in the same direction)
     for (int f = (direction == 1 ? 0 : N_FLOORS-1); f != prevFloor + direction; f += direction){
-        printf("Search floors 3 - %i %i\n", f, prevFloor);
+        // printf("Search floors 3 - %i %i\n", f, prevFloor);
         if (btnArray[f][BUTTON_CAB] || btnArray[f][direction == DIRN_UP ? BUTTON_HALL_UP : BUTTON_HALL_DOWN]){
-            printf("Found floor 3 - %i %i\n", f, prevFloor);
+            // printf("Found floor 3 - %i %i\n", f, prevFloor);
             return -direction;
         }
     }
